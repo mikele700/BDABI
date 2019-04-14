@@ -1,0 +1,84 @@
+\documentclass[a4paper]{report}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[italian]{babel}
+\usepackage{microtype}
+\usepackage{lmodern}
+\pagestyle{headings}
+\usepackage[italian]{varioref}
+%\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{caption}
+\captionsetup{tableposition=top,figureposition=bottom,font=small,format=hang,labelfont={sf,bf}}
+\usepackage{graphicx}
+\usepackage{rotating}
+\usepackage{amsmath}
+\usepackage{url}
+\usepackage{hyperref}
+\hypersetup{hidelinks}
+
+\begin{document}
+	
+	%%%%%%%%%%%%%%%%%%
+	%%% First page %%%
+	%%%%%%%%%%%%%%%%%%
+	
+	\begin{titlepage}
+		\begin{center}
+			
+			\includegraphics[width=0.8\textwidth]{contabile}\\[1cm]
+			
+			{\LARGE  \textsc{Università degli Studi di Napoli}}\\[0.5cm]
+			
+			{\LARGE  \textsc{Federico II}}\\[0.5cm]
+			
+			{\Large Corso di Sistemi Informativi}\\[0.5cm]
+			
+			{\large Progettazione di un Sistema Informativo}\\[0.5cm]
+			
+			% Title
+			\rule{\linewidth}{0.5mm} \\[0.4cm]
+			{ \huge \bfseries Il Punto Contabile \\[0.4cm] }
+			\rule{\linewidth}{0.5mm} \\[1.5cm]
+			
+			% Author and supervisor
+			\noindent
+			\begin{minipage}{0.4\textwidth}
+				\begin{flushleft} \large
+					\emph{Studenti :}\\
+					Michele \textsc{Pommella}\\
+					Davide \textsc{Trimaldi}
+				\end{flushleft}
+			\end{minipage}%
+			\begin{minipage}{0.4\textwidth}
+				\begin{flushright} \large
+					\emph{Professore :} \\
+					Vincenzo \textsc{Moscato}
+				\end{flushright}
+			\end{minipage}
+			
+			\vfill
+			
+			% Bottom of the page
+			{\large Anno Accademico 2018-2019}
+			
+		\end{center}
+	\end{titlepage}
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%%% Non-significant pages %%%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	
+	
+	\tableofcontents
+	\listoffigures
+	\listoftables
+	
+	\include{./TeX_files/chapter01}
+	
+	\include{./TeX_files/chapter02}
+	\include{./TeX_files/chapter03}
+	\include{./TeX_files/chapter04}
+	
+\end{document}
