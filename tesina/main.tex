@@ -1,4 +1,4 @@
-\documentclass[a4paper]{report}
+\documentclass[a4paper,12pt]{report}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage[italian]{babel}
@@ -17,6 +17,7 @@
 \usepackage{url}
 \usepackage{hyperref}
 \hypersetup{hidelinks}
+\usepackage{eurosym}
 
 \begin{document}
 	
@@ -25,44 +26,45 @@
 	%%%%%%%%%%%%%%%%%%
 	
 	\begin{titlepage}
+		\begin{figure}
+			\vspace{-1cm}
+			\centering
+			\includegraphics[scale=0.8]{image/logo.jpg}\\[1cm]
+		\end{figure}
+		
 		\begin{center}
-			
-			\includegraphics[width=0.8\textwidth]{contabile}\\[1cm]
-			
-			{\LARGE  \textsc{Università degli Studi di Napoli}}\\[0.5cm]
-			
-			{\LARGE  \textsc{Federico II}}\\[0.5cm]
-			
-			{\Large Corso di Sistemi Informativi}\\[0.5cm]
-			
-			{\large Progettazione di un Sistema Informativo}\\[0.5cm]
-			
-			% Title
-			\rule{\linewidth}{0.5mm} \\[0.4cm]
-			{ \huge \bfseries Il Punto Contabile \\[0.4cm] }
-			\rule{\linewidth}{0.5mm} \\[1.5cm]
-			
-			% Author and supervisor
-			\noindent
-			\begin{minipage}{0.4\textwidth}
-				\begin{flushleft} \large
-					\emph{Studenti :}\\
-					Michele \textsc{Pommella}\\
-					Davide \textsc{Trimaldi}
-				\end{flushleft}
-			\end{minipage}%
-			\begin{minipage}{0.4\textwidth}
-				\begin{flushright} \large
-					\emph{Professore :} \\
-					Vincenzo \textsc{Moscato}
-				\end{flushright}
-			\end{minipage}
-			
+			{\large  \textsc{Dipartimento di Ingegneria Elettrica e delle Tecnologie dell'Informazione}}\\[0.5cm]
+			{\large  \textsc{Laurea Magistrale di Ingegneria Informatica}}\\[0.5cm]
+			{\large  \textsc{Corso di Big Data Analytics and Business Intelligence}}\\[1cm]
+		\end{center}
+		\begin{center}
+			\bfseries\Huge\sc Expert Finding\\[0.3cm]\normalsize\sc Identificazione utenti con conoscenza su un dato tema\\ 
+		\end{center}
+		
+		
+		\begin{figure}[H]
+			\centering
+			\includegraphics[]{image/filigrana.png}
+		\end{figure}
+		
+		
+		\vspace{-1.5cm}
+		\begin{minipage}{0.4\textwidth}
+			\begin{flushleft} \large
+				\emph{Autori:}\\
+				Davide  \textsc{Lauretano \\} Michele  \textsc{Pommella} \\Davide  \textsc{Trimaldi \\}
+			\end{flushleft}
+		\end{minipage}
+		~
+		\begin{minipage}{0.4\textwidth}
+			\begin{flushright} \large
+				\emph{Professore:} \\
+				Antonio  \textsc{Picariello \\}
+			\end{flushright}
+		\end{minipage}\\
+		\begin{center}
 			\vfill
-			
-			% Bottom of the page
-			{\large Anno Accademico 2018-2019}
-			
+			{\sc Anno Accademico 2018-2019}
 		\end{center}
 	\end{titlepage}
 	
@@ -79,6 +81,5 @@
 	
 	\include{./TeX_files/chapter02}
 	\include{./TeX_files/chapter03}
-	\include{./TeX_files/chapter04}
 	
 \end{document}
