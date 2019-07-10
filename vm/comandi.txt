@@ -1,0 +1,13 @@
+w3m sito        #browser (per salvare il download ESC+S)
+vim file        #editor
+transmission-cli torrent -w cartella    #torrent
+aria2c -T torrent -d cartella   #torrent
+du -h   #dimensioni sottocartelle
+ls | wc -l      #conteggio file in una cartella
+df -h   #spazio libero hard disk
+df -Th  #punto di mount dei dischi
+7z t archivio.7z        #controllo integrità archivio
+7z l archivio.7z        #lista di file dell'archivio
+7z e archivio.7z        #estrazione
+7z x archivio.7z -o"destinazione"
+

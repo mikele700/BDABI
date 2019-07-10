@@ -1,0 +1,10 @@
+sudo service mongod stop        #inizializza il servizio
+ATTENDERE QUALCHE SECONDO
+Controllare in /var/log/mongodb/mongod.log: [initandlisten] waiting for connections on port 27017
+mongo   #apre la shell
+db      #mostra il database in uso
+use BDABI       #cambia database in uso eventualmente
+exit    #esce dalla shell
+sudo service mongod stop        #arresta il servizio
+
+mongoimport --db BDABI --collection yelp --file review.json     #caricamento del JSON nel DB
