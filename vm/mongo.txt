@@ -8,3 +8,11 @@ exit    #esce dalla shell
 sudo service mongod stop        #arresta il servizio
 
 mongoimport --db BDABI --collection yelp --file review.json     #caricamento del JSON nel DB
+
+CAMBIO DISCO
+sudo service mongod stop
+modifica dirpath in /etc/mongodb.conf
+cp -ra /sorg/* destinazione
+sudo chown mongodb:mongodb destinazione
+sudo service mongod start
+

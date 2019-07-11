@@ -10,4 +10,6 @@ df -Th  #punto di mount dei dischi
 7z l archivio.7z        #lista di file dell'archivio
 7z e archivio.7z        #estrazione
 7z x archivio.7z -o"destinazione"
+sudo chmod go+rx dir    #permessi cartella
+
 

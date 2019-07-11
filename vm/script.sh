@@ -7,28 +7,39 @@
 #mongoimport --db BDABI --collection yelpphoto --file /home/vmadmin/yelp/photo.json
 
 #sudo transmission-cli /home/vmadmin/stackexchange_archive.torrent -w /mnt
-#sudo aria2c -T /home/vmadmin/stackexchange_archive.torrent -w /mnt
+#sudo aria2c -T /home/vmadmin/stackexchange_archive.torrent -d /mnt
 
-for file in /mnt/stackexchange/*.7z
-#for file in /mnt/stackexchange/pets.stackexchange.com.7z
+#for file in /mnt/stackexchange/*.7z
+#       do
+#       f=$(basename "$file")
+#       me=${f#*.}
+#       m=${me%%.*}
+#
+#       topic=${f%%.*}
+#       if [ "$m" != "meta" ] && [ "$topic" != "meta" ] && [ "$topic" != "stackoverflow" ];
+#               then
+#               sudo 7z x "$file" -o"/mnt/data/$topic"
+#               sudo chmod -R go+rw /mnt/data/$topic
+#               sudo chmod go+x /mnt/data/$topic
+#       fi
+#
+        #7z t $file
+#
+#done
+maschera="falso"
+for file in /mnt/data/*
         do
-        f=$(basename "$file")
-        me=${f#*.}
-        m=${me%%.*}
-        #echo $m
-
-        topic=${f%%.*}
-        if [ "$m" != "meta" ] && [ "$topic" != "meta" ] && [ "$topic" != "stackoverflow" ];
+        f="$(basename "$file")"
+        letter="$(echo $f | head -c 3)"
+        if [ "$letter" = "mat" ];
                 then
-                sudo 7z x "$file" -o"/mnt/data/$topic"
-                sudo chmod -R go+rw /mnt/data/$topic
-                sudo chmod go+x /mnt/data/$topic
+                maschera="vero"
         fi
 
-        #echo $topic
-        #7z t $file
-        #sudo 7z x "$file" -o"/mnt/data/$topic"
-        #sudo chmod -R go+rw /mnt/data/$topic
-        #sudo chmod go+x /mnt/data/$topic
+        if [ "$maschera" = "vero" ];
+                then
+                spark-submit --packages com.databricks:spark-xml_2.12:0.5.0,org.mongodb.spark:mongo-spark-connector_2.12:2.4.0 /home/vmadmin/src/StackExchange.py $f
+        fi
 done
+
 
