@@ -1,4 +1,4 @@
 spark-submit --packages org.mongodb.spark:mongo-spark-connector_2.12:2.4.0 --driver-memory 2g /home/vmadmin/src/ExpertFinding.py topic >risultato.txt
-spark-submint --packages com.databricks:spark-xml_2.12:0.5.0,org.mongodb.spark:mongo-spark-connector_2.12:2.4.0 /home/vmadmin/src/StackExchange.py
+spark-submit --packages com.databricks:spark-xml_2.12:0.5.0,org.mongodb.spark:mongo-spark-connector_2.12:2.4.0 /home/vmadmin/src/StackExchange.py
 export PYTHONIOENCODING=utf8
 
