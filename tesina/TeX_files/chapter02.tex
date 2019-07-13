@@ -33,14 +33,14 @@ L'unione di queste due tecnologie consente allo sviluppatore di realizzare l'app
 	\label{fig:arc}
 \end{figure}
 I file JSON di Yelp sono stati caricati direttamente in MongoDB grazie al JSON parser offerto.
-Per il caricamento, ad esempio, delle recensioni, si è potuto adoperare il comando in \ref{lst:mimp}. Esso indica in quale database ed in quale collezione caricare i dati.\par
+Per il caricamento, ad esempio, delle recensioni, si è potuto adoperare il comando in \textbf{\ref{lst:mimp}}. Esso indica in quale database ed in quale collezione caricare i dati.\par
 
 \begin{lstlisting}[language=Bash, caption={Yelp Dataset Loading}, captionpos=b, label={lst:mimp}]
 mongoimport --db BDABI --collection yelpreview --file review.json
 \end{lstlisting}
  
 Per i file XML, invece, MongoDB non offre delle estensioni per la conversione in BSON. Per il caricamento dei file di StackExchange, quindi, è stato adoperato Pyspark. Il codice prevede la creazione di una sessione Spark e la definizione degli schemi XML. Segue la creazione dei \emph{DataFrame} a partire dai file XML. La definizione dello schema non è strettamente necessaria per il caricamento: Spark potrebbe effettuare l'analisi dell'intero dataset e ricavarne lo schema di conseguenza. Essa, quindi, mira ad efficientare l'elaborazione, dando a Spark indicazioni sullo schema da ricerca ed i tipi degli attributi relativi, evitando l'analisi completa del dataset. Ciò si rivela cruciale quando si gestioscono grandi volumi di dati. Nel caso di StackExchange è richiesto che Spark elabori e carichi circa 60GB di file XML appartenenti ai diversi topic. Dopo la definizione dei DataFrame, segue la scrittura in MongoDB degli stessi. La collezione in cui scrivere i dati è determinata dal parametro di ingresso alla funzione, rappresentante il topic. In tal modo i dati di StackExchange sono già differenziati per topic e sarà semplice un recupero in tal senso nella fase finale di analisi.
-\begin{lstlisting}[language=Python, caption={StackExchange Dataset Loading}, captionpos=b]
+\begin{lstlisting}[language=Python, caption={StackExchange Dataset Loading}, captionpos=b, label={lst:se}]
 #coding=utf-8
 from pyspark.sql import SparkSession
 from pyspark.sql.types import *
@@ -147,7 +147,7 @@ In StackExchange i dati già sono divisi per topic. Si accede, quindi, con l'arg
 \sum_{1}^{2}{0.5*x_{{normalizato}_i}}
 \end{equation*}
 
-\begin{lstlisting}[language=Python, caption={Expert Finding}, captionpos=b]
+\begin{lstlisting}[language=Python, caption={Expert Finding}, captionpos=b,label={lst:ef}]
 # encoding=utf8
 import sys
 reload(sys)
@@ -355,3 +355,12 @@ else:
 		\If{notYelp AND notStack}{print "Topic inesistente"\;}
 	}{print "Topic non selezionato"\;}
 \end{algorithm}
+
+Infine, per eseguire il codice Python, si sfrutta Spark con il package mongo-spark-connector. Per garantire l'esecuzione è necessario garantire sufficiente memoria per il driver, pena il fallimento dell'esecuzione. Sono stati dedicati al driver 2GB di memoria centrale. L'output è direzionato verso un file testo per distinguerlo dalle informazioni di controllo dell'esecuzione.
+
+\begin{lstlisting}[language=Bash, caption={Driver Memory}, captionpos=b,label={lst:dm}]
+spark-submit 
+--packages org.mongodb.spark:mongo-spark-connector_2.12:2.4.0 
+--driver-memory 2g 
+/home/vmadmin/src/ExpertFinding.py topic >risultato.txt
+\end{lstlisting}
