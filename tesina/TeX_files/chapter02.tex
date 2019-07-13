@@ -8,11 +8,11 @@ La macchina virtuale mette a disponizione:
 	\item Disco temporaneo secondario di 400 GB
 \end{itemize}
 Accessibile mediante protocollo SSH, offre l'utilizzo dell'engine Apache Spark con stack relativo già installato e configurato. In particolare si è fatto uso del modello di programmazione Spark per il linguaggio Python: \emph{Pyspark}.\par
-Il database NoSQL utilizzato è \emph{MongoDB} per la tipologia di dati da trattare e le operazioni da effettuare su di essi. MongoDB è un database documentale che consente di trattare aggregati strutturati, risultando in accessi più flessibili. Permette, quindi, di sottomettere query basate sui campi dell'aggregato e recuperare solo parte di esso. MongoDB memorizza e restituisce documenti in formato \emph{BSON}, rappresentazione binaria del JSON. I documenti sono strutture dati ad albero gerarchiche e possono essere anche strutturalmente non identici. Sono infatti distinti per collezione, insieme di documenti simili. Le caratteristiche di MongoDB hanno consentito una gestione semplice ed efficace del dataset composto principalmente da file \emph{JSON} e \emph{XML}. Il flessibile modello documentale dei dati con schema dinamico e ridimensionamento automatico su hardware comune rende MongoDB ideale per applicazioni con grandi volumi di dati multi-strutturati e dall'elevato tasso di cambiamento. Inoltre MongoDB offre la completa interoperabilità con il sistema Spark, mediante il \emph{MongoDB Spark Connector}, che ne consente la gestione tramite codice Pyspark.
+Il database NoSQL utilizzato è \emph{MongoDB} per la tipologia di dati da trattare e le operazioni da effettuare su di essi. MongoDB è un database documentale che consente di trattare aggregati strutturati, risultando in accesso più flessibili. Permette, quindi, di sottomettere query basate sui campi dell'aggregato e recuperare solo parte di esso. MongoDB memorizza e restituisce documenti in formato \emph{BSON}, rappresentazione binaria del JSON. I documenti sono strutture dati ad albero gerarchiche e possono essere anche strutturalmente non identici. Sono infatti distinti per collezione, insieme di documenti simili. Le caratteristiche di MongoDB hanno consentito una gestione semplice ed efficace del dataset composto principalmente da file \emph{JSON} e \emph{XML}. Il flessibile modello documentale dei dati con schema dinamico e ridimensionamento automatico su hardware comune rende MongoDB ideale per applicazioni con grandi volumi di dati multi-strutturati e dall'elevato tasso di cambiamento. Inoltre MongoDB offre la completa interoperabilità con il sistema Spark, mediante il \emph{MongoDB Spark Connector}, che ne consente la gestione tramite codice Pyspark.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.5]{./image/mongospark.jpg}
+	\includegraphics[scale=0.5]{image/mongospark.jpg}
 	\caption{MongoDB Spark Connector}
 	\label{fig:msc}
 \end{figure}
@@ -28,7 +28,7 @@ L'unione di queste due tecnologie consente allo sviluppatore di realizzare l'app
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.5]{./image/BDABI.png}
+	\includegraphics[scale=0.5]{image/BDABI.png}
 	\caption{Architettura}
 	\label{fig:arc}
 \end{figure}
@@ -39,8 +39,8 @@ Per il caricamento, ad esempio, delle recensioni, si è potuto adoperare il coma
 mongoimport --db BDABI --collection yelpreview --file review.json
 \end{lstlisting}
  
-Per i file XML, invece, MongoDB non offre delle estensioni per la conversione in BSON. Per il caricamento dei file di StackExchange, quindi, è stato adoperato Pyspark. Il codice prevede la creazione di una sessione Spark e la definizione degli schemi XML. Segue la creazione dei \emph{DataFrame} a partire dai file XML. La definizione dello schema non è strettamente necessaria per il caricamento: Spark potrebbe effettuare l'analisi dell'intero dataset e ricavarne lo schema di conseguenza. Essa, quindi, mira ad efficientare l'elaborazione, dando a Spark indicazioni sullo schema da ricerca ed i tipi degli attributi relativi, evitando l'analisi completa del dataset. Ciò si rivela cruciale quando si gestioscono grandi volumi di dati. Nel caso di StackExchange è richiesto che Spark elabori e carichi circa 60GB di file XML appartenenti ai diversi topic. Dopo la definizione dei DataFrame, segue la scrittura in MongoDB degli stessi. La collezione in cui scrivere i dati è determinata dal parametro di ingresso alla funzione, rappresentante il topic. In tal modo i dati di StackExchange sono già differenziati per topic e sarà semplice un recupero in tal senso nella fase finale di analisi.
-\begin{lstlisting}[language=Python, caption={StackExchange Dataset Loading}, captionpos=b, label={lst:se}]
+Per i file XML, invece, MongoDB non offre delle estensioni per la conversione in BSON. Per il caricamento dei file di StackExchange, quindi, è stato adoperato Pyspark. Il codice prevede la creazione di una sessione Spark e la definizione degli schemi XML. Segue la creazione dei \emph{DataFrame} a partire dai file XML. La definizione dello schema non è strettamente necessaria per il caricamento: Spark potrebbe effettuare l'analisi dell'intero dataset e ricavarne lo schema di conseguenza. Essa, quindi, mira a rendere efficiente l'elaborazione, dando a Spark indicazioni sullo schema da ricercare ed i tipi di attributi relativi, evitando l'analisi completa del dataset. Ciò si rivela cruciale quando si gestiscono grandi volumi di dati. Nel caso di StackExchange è richiesto che Spark elabori e carichi circa 60GB di file XML appartenenti ai diversi topic. Dopo la definizione dei DataFrame, segue la scrittura in MongoDB degli stessi. La collezione in cui scrivere i dati è determinata dal parametro di ingresso alla funzione, rappresentante il topic. In tal modo i dati di StackExchange sono già differenziati per topic e sarà semplice un recupero in tal senso nella fase finale di analisi.
+\begin{lstlisting}[language=Python, caption={StackExchange Dataset Loading}, captionpos=b,label={lst:se}]
 #coding=utf-8
 from pyspark.sql import SparkSession
 from pyspark.sql.types import *
@@ -128,7 +128,16 @@ spark-submit --packages com.databricks:spark-xml_2.12:0.5.0,
 
 MongoDB sarà ora pronto per fornire i dati per le elaborazioni successive. L'algoritmo, realizzato in Pyspark, si pone l'obiettivo di ricercare gli utenti esperti in un determinato argomento. Ricevuto in input il topic di riferimento, l'algoritmo effettua una ricerca nei diversi dataset e recupera i \emph{top10} utenti che valuta come esperti. La valutazione della competenza degli utenti è effettuata mediante una metrica che si avvale di diversi parametri offerti dai dataset.\par
 L'algoritmo, in prima battuta, trasforma il topic in input nella forma coerente con i diversi dataset. Essi, infatti, memorizzano i topic con formati diversi e questa eterogeneità è gestita a monte in tal modo: Yelp richiede una stringa in minuscolo con la prima leterra in maiuscolo ed uno spazio tra le diverse parole, StackExchange richiede una stringa tutta in minuscolo senza spazi tra le parole. Dopo la fase di trasformazione, segue la ricerca.\par 
-In Yelp si recuperano tutte le imprese appartenenti alla categoria ricercata e si sfruttano i loro id per trovare le recensioni degli utenti relativi mediante l'operazione di \emph{join} offerta da Spark. Ad ogni recensione è associata un'informazione di utilità valutata dai lettori. Si filtrano, quindi, le recensioni con utilità maggiore della media e si ordinano in ordine decrescente per utilità. Si selezionano le 100 recensioni più utili. Infatti l'algoritmo restituirà i 10 utenti più esperti e sarebbe dispendioso continuare l'elaborazione considerando un numero di recensioni superiore di più di un ordine di grandezza rispetto al numero di utenti cercati. Tra le recensioni più utili si devono determinare gli utenti più esperti. Si procede, quindi, ad un ulteriore join con gli utenti. Si raggruppano le recensioni per utente e si somma l'utilità di quelle afferenti allo stesso utente, creando l'attributo di \emph{topicuseful}. Esso rappresenta la somma comulativa delle recensioni scritte da uno stesso utente relative al topic di riferimento. Le recensioni utili da sole non bastano ad identificare un utente esperto. Si è presa in considerazione il concetto di credibilità dell'utente, di autorità. Per fare ciò si sono prese in considerazione differenti informazioni circa l'utente: il numero di anni in cui è stato un utente elite (votato dagli altri utenti come competente), il numero di complimenti per le sue recensioni, la somma cumulativa dell'utilità delle sue recensioni, il numero di complimenti sul suo profilo, il numero di fan, il numero di complimenti per la lista di imprese recensite. Si è definita, dunque, una metrica per ricavare una valutazione della competenza dell'utente a partire da queste informazioni. Per renderle omogenee, esse sono state normalizzate nel range [0,1]:
+In Yelp si recuperano tutte le imprese appartenenti alla categoria ricercata e si sfruttano i loro id per trovare le recensioni degli utenti relativi mediante l'operazione di \emph{join} offerta da Spark. Ad ogni recensione è associata un'informazione di utilità valutata dai lettori. Si filtrano, quindi, le recensioni con utilità maggiore della media e si ordinano in ordine decrescente per utilità. Si selezionano le 100 recensioni più utili. Infatti l'algoritmo restituirà i 10 utenti più esperti e sarebbe dispendioso continuare l'elaborazione considerando un numero di recensioni superiore di più di un ordine di grandezza rispetto al numero di utenti cercati. Tra le recensioni più utili si devono determinare gli utenti più esperti. Si procede, quindi, ad un ulteriore join con gli utenti. Si raggruppano le recensioni per utente e si somma l'utilità di quelle afferenti allo stesso utente, creando l'attributo di \textbf{topicuseful}. Esso rappresenta la somma comulativa delle recensioni scritte da uno stesso utente relative al topic di riferimento. Le recensioni utili da sole non bastano ad identificare un utente esperto. Si è presa in considerazione il concetto di credibilità dell'utente, di autorità. Per fare ciò si sono prese in considerazione differenti informazioni circa l'utente:
+\begin{itemize}
+\item il numero di anni in cui è stato un utente elite (selezionato dalla piattaforma come competente),
+\item il numero di complimenti per le sue recensioni,
+\item la somma cumulativa dell'utilità delle sue recensioni,
+\item il numero di complimenti sul suo profilo,
+\item il numero di fan,
+\item il numero di complimenti per la lista di imprese recensite.
+\end{itemize}
+Si è definita, dunque, una metrica per ricavare una valutazione della competenza dell'utente a partire da queste informazioni. Per renderle omogenee, esse sono state normalizzate nel range [0,1]:
 \begin{equation*}
 x_{normalizzato} = \frac{x - min(x)}{max(x)-min(x)}
 \end{equation*}
@@ -137,7 +146,7 @@ Si è poi definita la metrica di valutazione della competenza come somma pesata 
 \sum_{1}^{7}{w_i*x_{{normalizato}_i}}
 \end{equation*}
 \begin{equation*}
-w_i=\begin{cases} 0.25, & \mbox{se } x_i= \mbox{topicuseful, elitedim}\\ 0.15, & \mbox{se } x_i= \mbox{compliment hot}\\ 0.1, & \mbox{se } x_i= \mbox{fans, compliment profile, useruseful} \\ 0.05, & \mbox{se } x_i= \mbox{compliment list}
+w_i=\begin{cases} 0.25, & \mbox{se } x_i \in \mbox{ \{topicuseful, elitedim\}}\\ 0.15, & \mbox{se } x_i \in \mbox{ \{compliment hot\}}\\ 0.1, & \mbox{se } x_i \in \mbox{ \{fans, compliment profile, useruseful\}} \\ 0.05, & \mbox{se } x_i \in \mbox{ \{compliment list\}}
 \end{cases}
 \end{equation*}
 Si ricavano infine i 10 utenti con score più alto.\par
@@ -147,7 +156,11 @@ In StackExchange i dati già sono divisi per topic. Si accede, quindi, con l'arg
 \sum_{1}^{2}{0.5*x_{{normalizato}_i}}
 \end{equation*}
 
-\begin{lstlisting}[language=Python, caption={Expert Finding}, captionpos=b,label={lst:ef}]
+\begin{equation*}
+    x_i \in \{\mbox{topicscore, reputation}\}
+\end{equation*}
+
+\begin{lstlisting}[language=Python, caption={Expert Finding}, captionpos=b, label={lst:ef}]
 # encoding=utf8
 import sys
 reload(sys)
@@ -320,7 +333,7 @@ else:
   print("Topic non selezionato")
 \end{lstlisting}
 
-\begin{algorithm}[h]
+\begin{algorithm}[ht]
 	\caption{Expert Finding Pseudocode}
 	\KwIn{topic}
 	\KwResult{experts}

@@ -1,15 +1,109 @@
 \chapter{Problema}
-La ricerca di esperti è una sfida per molte ragioni, tra cui:
-\begin{itemize}
-	\item Il volume di pubblicazioni di un esperto non è indice di esperienza;
-	\item Il primo esperto che hai trovato potrebbe non essere il migliore;
-	\item Alcuni argomenti generano più opinioni che fatti e quindi trovare il vero esperto può essere difficile;
-	\item Di solito c'è una mancanza di accesso alle informazioni sulle prestazioni passate dell' esperto;
-	\item Le competenze non sono distribuite in modo uniforme e punti di forza delle associazioni tra esperti variare in modo significativo
-	\item Non ci sono standard che specificano i criteri e/o le qualifiche necessarie per particolari livelli di esperienza.
-	\item La vera esperienza è rara e costosa. Spesso l'accesso è controllato, in modo informale o formalmente, dall'esperto stesso o dal loro management.
-	\item La competenza di un esperto cambia continuamente e richiede consapevolezza di questa dinamica. 
-	\item Le soluzioni a problemi complessi spesso richiedono o comunità di esperti o diverse gamme di competenze che devono essere riunite per risolvere il complesso i problemi.
-	\item  Gli ingegneri di uno studio classico hanno trascorso il 16\% del loro tempo a comunicare esperti - ma la comunicazione è stata ostacolata da differenze geografiche, di fuso orario e barriere culturali.
-\end{itemize}
+La ricerca di esperti è il compito di trovare esperti di un dato dominio.\\ La profilazione degli esperti è il compito di restituire una lista di argomenti sui quali una persona è ben informata e competente.\\
+La ricerca di esperti fa uso di tool e di sw per trovare e valutare le competenze di un individuo.\\
+La ricerca di esperti è una sfida per molte ragioni. Ad esempio, il volume di pubblicazioni di un esperto non è indice di esperienza.\\
+Un altro problema è che la vera esperienza è rara e costosa, spesso l'accesso ai dati è controllato dall'esperto stesso.\\
+C'è da tenere in considerazione che le competenze di un esperto cambiano continuamente e bisogna essere  consapevolevi di questa dinamica.\\
+Nella ricerca degli esperti non bisogna mai fermarsi al primo esperto trovato, perché potrebbe non essere la persona più colta e preparata per quell'argomento.\\
+Alcuni argomenti e topic generano più opinioni che conoscenza, quindi trovare il vero esperto può essere difficile.\\
+Spesso c'è una mancanza di accesso alle informazioni sulle conoscenze passate dell'esperto.\\
+Le difficoltà nell'analisi e nella ricerca degli esperti è che non ci sono degli standard che specificano i criteri e le qualifiche necessarie per particolari livelli di esperienza.\\
+Spesso le soluzioni a problemi complessi spesso richiedono comunità di esperti e diverse gamme di competenze, per cui si devono riunire gli esperti per risolvere i problemi.\\
 In sintesi, la ricerca di esperti è un compito complesso e difficile.
+
+\section{Dataset}
+I dataset utilizzati sono due: \textit{Yelp} e \textit{Stack Exchange}.
+
+\begin{wrapfigure}{r}{0.4\textwidth}
+    \centering
+    \includegraphics[scale=0.1]{image/yelp.png}
+    \label{fig:yelp}
+\end{wrapfigure}
+\subsection{Yelp}
+Yelp è un social network in cui le persone si scambiano pareri, opinioni e “dritte” sui posti migliori del luogo in cui abitano e di quelli in cui vanno per lavoro, viaggio o altri motivi. Di conseguenza, uno dei punti di forza di Yelp è da un lato il crowdsourcing dei contenuti, ossia il fatto che il contenuto è creato dagli utenti, e dall’altro la potenza della community che genera ed interagisce sul sito.
+Su Yelp non ci sono solo recensioni di alberghi e ristoranti: si possono recensire (e leggere recensioni) di qualunque attività, purchè sia accessibile al pubblico. Tutti i luoghi recensiti sono luoghi reali, che altre persone possono visitare a loro volta.\\
+Il nostro dataset è costituito da tanti file JSON.
+Il JSON (\textbf{JavaScript Object Notation}) è un formato per lo scambio di dati. Risulta facile da leggere e scrivere per le persone; mentre per le macchine è facile da generare e analizzare la sintassi.
+JSON è un formato di testo completamente indipendente dal linguaggio di programmazione. È leggero per la memorizzazione e il trasporto dei dati. I dati sono in coppie nome/valore.\\
+Ogni file è composto da un singolo tipo di oggetto, un oggetto JSON per linea. \newline
+Nel dataset ci sono 5 file JSON e sono \textit{business, checkin ,review, tip, user}.\\
+I file JSON da noi utilizzati sono \textit{business, review e user}.
+
+\begin{itemize}
+\item \textbf{Business:}
+Contiene i dati di ogni locale, come ad esempio un ristorante, inclusi i dati sulla posizione, gli attributi e le categorie.
+Ogni locale è identificato da un \textit{business\_id}.\\
+Un campo importante è \textbf{categories}, che è composto da una serie di stringhe aziendali, esso classifica il topic. Con topic si intende l'argomento di una discussione.\\
+Per esempio attraverso \textit{categories} possiamo conoscere se in un ristorante si mangiano pietanze messicane.\\
+Un locale deve avere un \textit{nome} ed una posizione geografica identificata da \textit{address, city, state, postal\_code, latitude, longitude}.\\
+Il campo \textit{review\_count} rappresenta il numero di recensioni che ha avuto il locale.\\
+\textit{attributes} da informazioni aggiuntive sul locale, ad esempio se è presente un parcheggio privato che il cliente può utilizzare.\\
+\textit{hours} indica i giorni e l' orario di apertura del locale.\\
+\textit{stars} rappresenta il numero di stelle assegnato ad un locale.\\
+\textit{is\_open } indica se un locale è ancora aperto.\\
+
+\item \textbf{Review:}
+Contiene le recensioni scritte dagli utenti.\\
+Un campo di particolare interesse è \textbf{useful} che è composto da un numero intero e rappresenta il numero di voti che reputano utile la recensione. \'E stato utilizzato per selezionare le recensioni più rilevanti di un determinato topic.\\
+\textit{useful} è considerato un campo con notevole peso nelle elaborazioni, perché è utile nella ricerca degli esperti.\\
+Ogni recensione è identificata da \textit{review\_id}.
+\textit{user\_id} identifica l'utente che ha scritto la recensione.
+\textit{business\_id,} identifica il locale per cui è stata scritta la recensione.\\
+Gli altri campi contenuti all' interno del file sono: \textit{stars, date, text, funny, cool}.\\
+
+\item \textbf{User:}
+Sono gli utenti che interagiscono con Yelp, essi scrivono le recensioni per un determinato locale (riguardante un certo topic).
+Nel file sono salvati anche i metadati associati agli amici dell'utente.\\
+Ogni utente è identificato da \textit{user\_id}, che è una stringa di caratteri.\\
+Un campo distintivo è \textbf{elite} che indica gli anni in cui il recensore è stato un utente elite.
+Gli elite vengono eletti una volta all'anno.
+Gli utenti elite hanno avuto una particolare considerazione nelle elaborazioni per ricercare gli esperti.\\ 
+Altri campi di interesse sono: \textbf{compliment\_list, compliment\_profile, fans, useful}.
+Anche questi campi hanno contribuito alla ricerca di un utente compentente.\\
+\textit{compliment\_list} è il numero di elenchi di complimenti che utente possiede.\\
+\textit{compliment\_profile} rappresenta il numero utenti che si sono di complimentati con l'utente.\\
+\textit{fans} è un intero ed è il numero dei fan che un recensore possiede.\\
+\textit{useful} è un intero ed è il numero di voti dato ad un utente.\\
+Gli altri campi che compongono il file user sono:
+\textit{name, review\_count, yelping\_since, friends, funny, cool, average\_stars, compliment\_hot, compliment\_more, compliment\_profile, compliment\_cute, \\ compliment\_note, compliment\_plain, compliment\_cool,\\ compliment\_funny, compliment\_writer, compliment\_photos}.
+
+\item \textbf{Checkin:}
+Contiene i campi \textit{business\_id e date}, utilizzati rispettivamente per identificare
+il locale e per salvare la data e l'ora del checkin.
+
+\item \textbf{Tip:}
+Sono i suggerimenti scritti da un utente su un'azienda. I suggerimenti sono più brevi e concisi delle recensioni.\\
+I campi \textit{ business\_id, user\_id} identificano il locale a cui è rivolto il suggerimento e l'utente che lo ha scritto.\\
+\textit{text e date} sono il contenuto del suggerimento e la data ed ora in cui è stato scritto.\\
+\textit{compliment\_count} è numero di complimenti che ha avuto un suggerimento.
+\item \textbf{Photo:}
+Contiene le foto caricate dagli utenti riguardo ad un locale.
+Il campo \textit{etichetta} indica cosa è stato scattato; per esempio l'utente potrebbe aver fotografato il cibo oppure aver fotografato l' ambiente del locale.
+Gli altri campi sono \textit{photo\_id, business\_id, caption}.
+\end{itemize}
+Solo alcuni di questi file JSON sono stati utilizzati nel progetto, poiché solo alcuni sono di rilievanti per la ricerca degli esperti.
+I file selezionati per le nostre elaborazioni sono: \textbf{Business}, \textbf{Review}, \textbf{User}.
+
+\begin{wrapfigure}{r}{0.4\textwidth}
+    \centering
+    \includegraphics[scale=0.15]{image/stackexchange.png}
+    \label{fig:stack}
+\end{wrapfigure}
+\subsection{Stack Exchange}
+Stack Exchange è una rete di siti question-and-answer (Q\&A), in cui ciascuno di essi copre uno specifico topic di interesse e dove domande, risposte e utenti sono soggetti ad un processo di assegnazione di una certa reputazione.\\
+Lo scopo primario di ogni sito di Stack Exchange è quello di permettere agli utenti di porre domande e rispondere ad esse.\\
+Ogni sito tratta un determinato topic. Gli utenti possono votare sia le domande che le risposte e, attraverso questo processo, possono ricevere privilegi accumulando punti reputazione.\\\\
+Il nostro dataset è costituito da tanti file zip quanti sono i siti (e di conseguenza i topic), in ognuno di essi (o nella maggior parte) ci sono 7 file xml: \textit{Badges, Comments, PostHistory, PostLinks, Posts, Users, Votes}.\\
+
+\begin{itemize}
+    \item \textbf{Badges}: sono delle etichette che possono essere assegnate ad un utente (ai suoi post, alle sue risposte o al suo profilo) e sono rappresentative delle sue attività sul sito. Per esempio \textit{Teacher} viene assegnato a qulle risposte che hanno uno score maggiore o uguale a 1, oppure \textit{Archaeologist}, che viene assegnato ad un utente che modifica un post inattivo da più di 6 mesi. I campi che contiene sono: \textit{Id, UserId, Name} (nome del badge) e \textit{Date} (data di assegnazione del badge).
+    \item \textbf{Comments}: sono dei commenti ai post (domande o risposte). I campi che contiene sono: \textit{Id, PostId, Score, Text} e \textit{Creation Date}.
+    \item \textbf{Posts}: sono le domande o le risposte scritte dagli utenti, distinti da un campo \textit{PostTypeId}, che è 1 quando si tratta di una domanda e 2 quando si tratta di una risposta. Gli altri campi sono: \textit{Id, ParentId} (presente solo se si tratta di una risposta) \textit{AcceptedAnswerId} (presente solo se si tratta di una domanda) \textit{CreationDate, Score} (dato dalla differenza tra il numero di persone che hanno trovato utile quel post e quelle che invece non lo hanno trovato soddisfacente), \textit{ViewCount} (numero di visualizzazioni), \textit{Body} (testo), \textit{OwnerUserId} (autore del post), \textit{Title, AnswerCount, CommentCount, FavouriteCount}.
+    \item \textbf{PostHistory}: storia di un post, ovvero tutte le operazioni che un post ha subito come modifica del titolo o del corpo, chiusura, riapertura ecc. Ogni operazione è identificata da un id espresso dal campo \textit{PostHistoryTypeId}. Gli altri campi sono: \textit{PostId, CreationDate, UserId, Comment} e \textit{CloseReasonId} (id dell'eventuale motivo per cui un post è stato chiuso).
+    \item \textbf{PostLinks}: collegamenti ad altri post o a duplicati dello stesso post. Questo è specificato dal campo \textit{PostLinkTypeId}. Altri campi sono: \textit{Id, CreationDate, PostId, RelatedPostId}.
+    \item \textbf{Users}: sono gli utenti che interagiscono con i siti e quindi scrivono domande e risposte. Alcuni campi di questo file riguardano le generalità dell'utente come: \textit{DisplayName, EmailHash, WebsiteUrl, Location, Age} ed \textit{About me} (piccola descrizione che l'utente fa di se stesso).\\ 
+    Il campo più importante e da tenere in considerazione è invece \textit{Reputation}, essa ci indica proprio la reputazione che l'utente si è guadagnato da quando si è iscritto a Stack Exchange, interagendo ai post (sia pubblicando domande che risposte). Questo valore viene calcolato sulla base di diversi punteggi che vengono assegnati all'utente a seconda della quantità di \textit{upvotes} e \textit{downvotes} che riceve ai suoi post. La reputazione acquisita dall'utente, inoltre, gli permette di avere diversi privilegi e sfruttare funzionalità all'interno del sito. Altri campi sono la \textit{CreationDate} e le \textit{Views} del profilo. 
+    \item \textbf{Votes}: sono dei voti assegnati ad un post, che possono avere diversi significati a seconda del valore assunto dal campo \textit{VoteTypeId} (es. spam, offensive, favorite che caratterizzano il contenuto, oppure close, reopen, acceptedbyoriginator che ne denotano lo stato). Altri campi sono: \textit{PostId} e \textit{CreationDate}.
+\end{itemize}
+\vspace{1cm}
+Come si evince dal contenuto di questi file xml, solo alcuni di essi abbiamo utilizzato, perché maggiormente significativi per il nostro obiettivo di trovare gli esperti riguardo un certo topic. I file selezionati per le nostre elaborazioni sono: \textbf{Posts} e \textbf{Users}.

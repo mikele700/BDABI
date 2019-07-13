@@ -1,5 +1,0 @@
-\select@language {italian}
-\select@language {italian}
-\contentsline {chapter}{\numberline {1}Problema}{5}{chapter.1}
-\contentsline {chapter}{\numberline {2}Metodologia ed architettura}{7}{chapter.2}
-\contentsline {chapter}{\numberline {3}Risultati sperimentali}{20}{chapter.3}
