@@ -45,6 +45,15 @@ Currently share my home with 3 cats.
 	\label{fig:abme}
 \end{figure}
 
+Al fine di valutare l'algoritmo anche per il dataset Yelp, è stato realizzato un sondaggio con le migliori recensioni ed è stato chiesto ai partecipanti di ordinare gli utenti relativi in base all'esperienza che dimostrano sugli animali. Il sondaggio è stato effettuato su un gruppo ristretto di persone fidate con conoscenza dell'argomento in questione, in modo da garantire la serietà e l'attendibilità del responso. Il ranking ottenuto ricalca quello prodotto dall'algoritmo, eccetto per la quinta posizione. \emph{Georgie}, infatti, è stato posto in fondo alla classifica. Normalmente, con l'argomento \emph{animali}, si sottointende la cura per gli animali. Tutte le recensioni fanno riferimento ad associazioni di volontariato per il salvataggio degli animali, veterinari, attività con degli animali. Georgie, invece, parla di un'attività di ristorazione, che avrà ed accudirà i suoi animali, ma che non farà di ciò il principale business. L'attività è stata dunque classificata in tal modo dal dataset e ben valutata dall'algoritmo per l'ottima recensione ottenuta. Di contro, è stata mal valutata dai partecipanti al sondaggio, abituati dalle altre recensioni a ricercare un altro tipo di competenza nell'utente, più improntata ai temi animalisti. Una parola può rappresentare differenti concetti e a questo punto il tema scivolerebbe sul vero significato dell'argomento animali. Volendoci porre nel punto di vista dell'utilizzatore umano, per il quale è comune essere ambiguo e non specificare pienamente il contesto, sembra comunque accettabile il risultato ottenuto, composto di un unico falso positivo.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{image/form.PNG}
+	\caption{Sondaggio sugli esperti di animali}
+	\label{fig:frm}
+\end{figure}
+
 Infine ricerchiamo gli esperti di informatica. L'esecuzione impiega 30 secondi e coinvolge solo il dataset di StackExchange. Osserviamo ancora una volta come le descrizioni degli utenti siano coerenti con la tipologia di esperto cercata: un ricercatore del Technion, un ingegnere del software di Google, un dottorando dell'Università di British Columbia, un professore dell'Università dell'Illinois.
 
 \begin{description}
@@ -63,4 +72,5 @@ Infine ricerchiamo gli esperti di informatica. L'esecuzione impiega 30 secondi e
 	\label{fig:cs}
 \end{figure}
 
+\section{Tempi e costi}
 La metrica di valutazione della competenza riesce efficacemente ad individuare gli esperti nel settore. I tempi di esecuzione sono confermati anche con prove ripetute e con differenti topic. Le differenze sostanziali nei tempi di elaborazione sono dovute alla composizione dei dataset. Essendo StackExchange già suddiviso per topic, presenterà un numero di tuple nettamente inferiore alle centinaia di migliaia di Yelp, che mantiene i dati di tutta la piattaforma senza scrematura. La composizione di Yelp necessita inoltre di un'operazione di Join aggiuntiva per ricavare i topic dalle aziende, e di conseguenza le recensioni relative. Una fase di preprocessing onerosa potrebbe catalogare i dati di Yelp per topic nel database, riducendo i tempi di esecuzione ma provocando più ridondanza e maggior consumo di memoria. Questa è una strada al momento non praticabile per le poche risorse di memoria a disposizione nella macchina virtuale. Differenti configurazioni tecniche di Spark, variando il numero di esecutori, di core per ciascuno di essi, e di memoria loro disponibile, possono portare ad una riduzione dei tempi globali di al più 10 secondi, suggerendo che non siano le limitazioni tecniche della piattaforma a vincolare eccesivamente i tempi. Per quanto riguarda i costi in termini di risorse di memoria utilizzate, il disco primario non è stato sufficiente per l'estrazione e la memorizzazione dei dati. Si è quindi ricorso al disco temporaneo maggiormente capiente ma volatile. Sono quindi stati trovati dei compromessi tra tempi e costi per far fronte alla esigua disponibilità di risorse di memoria. La memoria centrale per l'elaborazione, invece, si è dimostrata sufficiente per garantire un'esecuzione efficiente.
